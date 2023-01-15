@@ -1,13 +1,17 @@
+# imports
 import cv2
 import numpy as np
-import pickle
 
+# Write the name of the video file here (must be in the same folder as the script)
 cap = cv2.VideoCapture('CHARGED UP presented by Haas Teaser.mp4')
 
-# play video with a second between each frame
+
+# LED Matrix size
 dim = (22, 22)
 
+# Output file
 f = open("frames.txt", "w+")
+
 while (cap.isOpened()):
     ret, frame = cap.read()
     frameRGB = []
@@ -27,7 +31,6 @@ while (cap.isOpened()):
     cv2.imshow('image', image)
     if cv2.waitKey(30) & 0xFF == ord('q'):
         break
-
 cap.release()
 cv2.destroyAllWindows()
 
