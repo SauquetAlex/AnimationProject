@@ -7,6 +7,7 @@ dim = (16, 16)
 
 f = open("image.txt", "w+")
 
+f.write(f"{dim[0]} {dim[1]}\n")
 while 1:
     image = cv2.resize(original, dim, interpolation=cv2.INTER_AREA)
     for i in range(0, dim[0]):

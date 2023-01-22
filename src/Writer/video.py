@@ -3,16 +3,16 @@ import cv2
 import numpy as np
 
 # Write the name of the video file here (must be in the same folder as the script) and its FPS
-cap = cv2.VideoCapture('Input\Rick.mp4')
+cap = cv2.VideoCapture('Input\SpinningcubeAlphaMatteTransition.mov')
 # make the fps higher if you want to speed up the framing process
 fps = 1000
 
 # LED Matrix size
-dim = (16, 16)
+dim = (64, 64)
 
 # Output file
 f = open("frames.txt", "w+")
-
+f.write(f"{dim[0]} {dim[1]}\n")
 # Imported code from https://stackoverflow.com/questions/13538748/crop-black-edges-with-opencv
 
 

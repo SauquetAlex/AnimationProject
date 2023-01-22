@@ -13,9 +13,10 @@ public class Frames implements Iterable<Frames.Frame> {
 
   public static class Frame {
     // TODO: write our own Color class?
-    private final Color[] leds = new Color[256];
+    private final Color[] leds;
 
-    public Frame() {
+    public Frame(int size) {
+      leds = new Color[size];
     }
 
     // TODO: bounds check
@@ -51,19 +52,26 @@ public class Frames implements Iterable<Frames.Frame> {
 
   private List<Frame> frames = new ArrayList<Frame>();
 
-  public Frames(String filename) throws FileNotFoundException, IOException {
+  public Frames(String filename) throws FileNotFoundException, IOException, ArithmeticException {
     BufferedReader reader = new BufferedReader(new FileReader(filename));
-
+    int size;
     String line;
+    if ((line = reader.readLine()) != null) {
+      String[] dim = line.split(" ");
+      size = (int) (Math.multiplyFull(Integer.valueOf(dim[0]), Integer.valueOf(dim[1])));
+    } else {
+      System.err.println("Invalid file: " + filename);
+      return;
+    }
     while ((line = reader.readLine()) != null) {
       // System.out.println("READING: " + line);
       String[] ledStrings = line.split(" ");
-      if (ledStrings.length != 256) {
+      if (ledStrings.length != size) {
         System.err.println("Invalid line: " + line);
         continue;
       }
 
-      Frame frame = new Frame();
+      Frame frame = new Frame(size);
       for (int i = 0; i < ledStrings.length; ++i) {
         Color led = Color.decode(ledStrings[i].substring(0, 6));
         frame.setLed(i, led);
