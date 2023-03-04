@@ -1,18 +1,17 @@
 # imports
 import cv2
 import numpy as np
+import os
 
 # Write the name of the video file here (must be in the same folder as the script) and its FPS
-cap = cv2.VideoCapture('Input\SpinningcubeAlphaMatteTransition.mov')
+name = "Rick.mp4"
+cap = cv2.VideoCapture('Input\\' + name)
 # make the fps higher if you want to speed up the framing process
 fps = 1000
 
 # LED Matrix size
-dim = (64, 64)
+dim = (16, 16)
 
-# Output file
-f = open("frames.txt", "w+")
-f.write(f"{dim[0]} {dim[1]}\n")
 # Imported code from https://stackoverflow.com/questions/13538748/crop-black-edges-with-opencv
 
 
@@ -36,6 +35,8 @@ def autocrop(image, threshold=0):
     return image
 
 
+
+i = 0
 while (cap.isOpened()):
     ret, frame = cap.read()
     if ret == False:
@@ -44,15 +45,10 @@ while (cap.isOpened()):
     # If there are black borders, crop them here, otherwise comment this out
     frame = autocrop(frame, 50)
     image = cv2.resize(frame, dim, interpolation=cv2.INTER_AREA)
-    for i in range(0, dim[0]):
-        for j in range(0, dim[1]):
-            f.write("#%02x%02x%02x" %
-                    (image[i][j][0], image[i][j][1], image[i][j][2]))
-            if (i != dim[0] - 1 or j != dim[1] - 1):
-                f.write(" ")
-    f.write("\n")
+    cv2.imwrite('Output\\videos\\' + str(i) + '.png', image)
     image = cv2.resize(image, (500, 500), interpolation=cv2.INTER_AREA)
     cv2.imshow('Video2', image)
+    i+=1
     if cv2.waitKey(1000//fps) & 0xFF == ord('q'):
         break
 cap.release()
